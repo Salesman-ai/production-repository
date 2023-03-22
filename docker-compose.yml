@@ -22,7 +22,6 @@ services:
       - 8080:8080
     links:
       - salesman-database
-      - salesman-prediction
 
   salesman-prediction:
     build: ./Prediction
