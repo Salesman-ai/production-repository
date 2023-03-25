@@ -16,7 +16,7 @@ load_dotenv(dotenv_path=config_path)
 def is_database_exist():
     if "not exist" in str(generate_connection()):
         log.database.warning(f"{ str(os.environ.get('POSTGRES_DB')) } not exist. Database will be created.")
-        database_initialization("postgres")
+        database_initialization()
     elif check_connection() is True:
         log.database.info(f"Table: { str(os.environ.get('POSTGRES_DB')) } exist. Skipping...")
 
