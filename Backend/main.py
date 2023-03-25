@@ -1,5 +1,4 @@
 from flask import Flask, request, make_response, json
-import requests
 import os
 from dotenv import load_dotenv
 from pathlib import Path
