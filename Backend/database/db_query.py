@@ -10,13 +10,15 @@ def check_connection():
         conn =  generate_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT VERSION()")
-        data = cursor.fetchone()
         log.database.info(f"Valid connection")
     except (Exception, psycopg2.DatabaseError) as error:
         log.database.error(error)
     finally:
         if conn is not None:
             conn.close()
+            return True
+        else:
+            return False
 
 def insert_price(id, ip, car_name, car_type, car_price):
     sql = """INSERT INTO results (id, user_ip, car_name, car_type, car_price) VALUES (%s, %s, %s, %s, %s)"""

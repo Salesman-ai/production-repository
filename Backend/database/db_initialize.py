@@ -1,4 +1,6 @@
 from database.db_conn import generate_connection
+from database.db_query import check_connection
+
 import psycopg2
 import os
 from dotenv import load_dotenv
@@ -15,14 +17,14 @@ def is_database_exist():
     if "not exist" in str(generate_connection()):
         log.database.warning(f"{ str(os.environ.get('POSTGRES_DB')) } not exist. Database will be created.")
         database_initialization("postgres")
-    else:
-        log.database.info(f"{ str(os.environ.get('POSTGRES_DB')) } exist. Skipping...")
+    elif check_connection() is True:
+        log.database.info(f"Table: { str(os.environ.get('POSTGRES_DB')) } exist. Skipping...")
 
 def database_initialization():
     sql_init = f"""
                 CREATE DATABASE {os.environ.get('POSTGRES_DB')}
                 WITH
-                OWNER = postgres
+                OWNER = {os.environ.get('POSTGRES_USER')}
                 ENCODING = 'UTF8'
                 LC_COLLATE = 'en_US.utf8'
                 LC_CTYPE = 'en_US.utf8'
@@ -44,11 +46,11 @@ def database_initialization():
                     TABLESPACE pg_default;
 
                     ALTER TABLE IF EXISTS public.results
-                        OWNER to postgres;"""
+                        OWNER to {os.environ.get('POSTGRES_USER')};"""
     
     conn = None
     try:
-        conn =  generate_connection()
+        conn =  generate_connection("salesman")
         conn.autocommit = True
         cursor = conn.cursor()
         cursor.execute(sql_init)
