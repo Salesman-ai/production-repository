@@ -54,4 +54,4 @@ def get_price():
 if __name__ == '__main__':
     log.backend.info("Start working on the logic module...")
     is_database_exist()
-    app.run(debug=True, port=9000)
+    app.run(debug=True, port=8080)
