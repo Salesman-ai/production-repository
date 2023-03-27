@@ -29,8 +29,11 @@ def summary(body, status_code):
 def get_price():
     if request.method == 'POST':
         #prediction = None
-        test = request.form
-        print(test)
+        log.backend.info(request.form)
+        log.backend.info(request.get_json)
+        log.backend.info(request.get_data)
+        log.backend.info(request.data)
+
         response = None
         #code = None
         log.backend.info(f"Function 'get_price()' started")
