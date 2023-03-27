@@ -5,9 +5,12 @@ from pathlib import Path
 from logger.log import log
 from database.db_query import insert_price
 from database.db_initialize import is_database_exist
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 try:
     config_path = Path('./config.cfg')
     load_dotenv(dotenv_path=config_path)
