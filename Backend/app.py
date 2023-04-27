@@ -42,7 +42,7 @@ frontend_fixers = {
 def get_price():
     if request.method == 'GET':
         req = request.args
-        print(req)
+        log.request.info(f"Request <{req}>.")
         res = None
         log.backend.info(f"Function 'get_price()' started")
         log.request.info(f"Request was received from <{request.remote_addr}>.")
@@ -50,7 +50,7 @@ def get_price():
         try:
             log.request.info(f"Request was sent to the prediction module")
             try:
-                res = requests.get("http://127.0.0.1:8081/api-prediction/get-predict", params=req)
+                res = requests.get("http://172.20.0.11:8090/api-prediction/get-predict", params=req)
                 log.request.info(f"Response was received from  prediction module")
             
             except Exception as error:
