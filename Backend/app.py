@@ -12,6 +12,9 @@ import requests
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api-backend/*": {"origins": "*"}})
 
+log.backend.info("Start working on the logic module...")
+is_database_exist()
+
 try:
     config_path = Path('./config.cfg')
     load_dotenv(dotenv_path=config_path)
@@ -59,6 +62,4 @@ def get_price():
 
 
 if __name__ == '__main__':
-    log.backend.info("Start working on the logic module...")
-    is_database_exist()
     app.run(debug=True, port=8080)
