@@ -38,10 +38,10 @@ frontend_fixers = {
     "power": float,
 }
 
-@app.route('/api-backend/get-price', methods=['GET'])
+@app.route('/api-backend/get-price', methods=['POST'])
 def get_price():
-    if request.method == 'GET':
-        req = request.form.to_dict()
+    if request.method == 'POST':
+        req = request.get_json()
         log.request.info(f"Request <{req}>.")
         res = None
         log.backend.info(f"Function 'get_price()' started")
