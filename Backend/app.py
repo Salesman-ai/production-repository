@@ -41,7 +41,7 @@ frontend_fixers = {
 @app.route('/api-backend/get-price', methods=['GET'])
 def get_price():
     if request.method == 'GET':
-        req = request.args
+        req = request.form.to_dict()
         log.request.info(f"Request <{req}>.")
         res = None
         log.backend.info(f"Function 'get_price()' started")
