@@ -26,18 +26,6 @@ def summary(body, status_code):
                               mimetype='application/json')
 
 
-frontend_fixers = {
-    "mileage": float,
-    "year": float,
-    "bodyType": str,
-    "fuelType": str,
-    "brand": str,
-    "name": str,
-    "tranny": str,
-    "engineDisplacement": float,
-    "power": float,
-}
-
 @app.route('/api-backend/get-price', methods=['POST'])
 def get_price():
     if request.method == 'POST':
@@ -63,6 +51,7 @@ def get_price():
             res = summary("Connection failure...", 500)
             return res
         
+        insert_price(req["brand"], req["name"], req["bodyType"], req["fuelType"], req["tranny"], req["power"], req["mileage"],req["year"],req["engineDisplacement"], float(res.text))
         res = summary(float(res.text), 200)
         log.request.info(f"Response returned")
         log.backend.info(f"Function 'get_price()' finished")
@@ -71,5 +60,5 @@ def get_price():
 
 if __name__ == '__main__':
     log.backend.info("Start working on the logic module...")
-    #is_database_exist()
+    is_database_exist()
     app.run(debug=True, port=8080)
