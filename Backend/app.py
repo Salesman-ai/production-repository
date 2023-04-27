@@ -41,7 +41,8 @@ frontend_fixers = {
 @app.route('/api-backend/get-price', methods=['GET'])
 def get_price():
     if request.method == 'GET':
-        req = {k: frontend_fixers[k](request.args.get(k, "")) for k in frontend_fixers}
+        req = request.args
+        print(req)
         res = None
         log.backend.info(f"Function 'get_price()' started")
         log.request.info(f"Request was received from <{request.remote_addr}>.")
