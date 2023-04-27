@@ -38,7 +38,7 @@ frontend_fixers = {
     "power": float,
 }
 
-@app.route('/api-backend/get-price', method=['GET'])
+@app.route('/api-backend/get-price', methods=['GET'])
 def get_price():
     if request.method == 'GET':
         req = {k: frontend_fixers[k](request.args.get(k, "")) for k in frontend_fixers}
@@ -71,5 +71,5 @@ def get_price():
 
 if __name__ == '__main__':
     log.backend.info("Start working on the logic module...")
-    is_database_exist()
+    #is_database_exist()
     app.run(debug=True, port=8080)
