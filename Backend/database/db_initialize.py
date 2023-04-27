@@ -36,15 +36,19 @@ def database_initialization():
                     CREATE TABLE IF NOT EXISTS public.{os.environ.get('POSTGRES_TABLE')}
                     (
                         id SERIAL NOT NULL,
-                        user_ip text COLLATE pg_catalog."default",
-                        car_name text COLLATE pg_catalog."default",
-                        car_type text COLLATE pg_catalog."default",
-                        car_price numeric,
+                        brandName text COLLATE pg_catalog."default",
+                        modelName text COLLATE pg_catalog."default",
+                        bodyType text COLLATE pg_catalog."default",
+                        fuelType text COLLATE pg_catalog."default",
+                        transmission text COLLATE pg_catalog."default",
+                        power numeric,
+                        mileage numeric,
+                        year numeric,
+                        engineDisplacement numeric,
+                        price numeric,
                         CONSTRAINT results_pkey PRIMARY KEY (id)
                     )
-
                     TABLESPACE pg_default;
-
                     ALTER TABLE IF EXISTS public.results
                         OWNER to {os.environ.get('POSTGRES_USER')};"""
     

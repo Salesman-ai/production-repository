@@ -6,10 +6,11 @@ from logger.log import log
 from database.db_query import insert_price
 from database.db_initialize import is_database_exist
 from flask_cors import CORS
+import requests
 
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/api-backend/*": {"origins": "*"}})
 
 try:
     config_path = Path('./config.cfg')
@@ -25,38 +26,47 @@ def summary(body, status_code):
                               mimetype='application/json')
 
 
-@app.route('/api/get-price', methods = ['GET', 'POST'])
-def get_price():
-    if request.method == 'POST':
-        #prediction = None
-        log.backend.info(request.form)
-        log.backend.info(request.get_json)
-        log.backend.info(request.get_data)
-        log.backend.info(request.data)
+frontend_fixers = {
+    "mileage": float,
+    "year": float,
+    "bodyType": str,
+    "fuelType": str,
+    "brand": str,
+    "name": str,
+    "tranny": str,
+    "engineDisplacement": float,
+    "power": float,
+}
 
-        response = None
-        #code = None
+@app.route('/api-backend/get-price', method=['GET'])
+def get_price():
+    if request.method == 'GET':
+        req = {k: frontend_fixers[k](request.args.get(k, "")) for k in frontend_fixers}
+        res = None
         log.backend.info(f"Function 'get_price()' started")
         log.request.info(f"Request was received from <{request.remote_addr}>.")
+
         try:
             log.request.info(f"Request was sent to the prediction module")
             try:
-                #prediction = requests.get(url = os.getenv('PREDICTION_URL'), params = request_data)
-                #prediction = request_data['kurwa']
+                res = requests.get("http://127.0.0.1:8081/api-prediction/get-predict", params=req)
                 log.request.info(f"Response was received from  prediction module")
             
             except Exception as error:
                 log.request.error(f"Response was not obtained from the prediction model. Error log - {error}")
+                res = summary("Connection to prediction server failure...", 503)
+                return res
         
         except Exception as error:
             log.backend.error(f"Function 'get_price()' failed. Status: {error}")
             log.request.error(f"Request received from <{request.remote_addr}> failed.")
-        finally:
-            response = summary(10000, 200)
-            #insert_price(1, str(request.remote_addr), "honda", "civic", 10000)
-            log.request.info(f"Response returned")
-            log.backend.info(f"Function 'get_price()' finished")
-            return response
+            res = summary("Connection failure...", 500)
+            return res
+        
+        res = summary(float(res.text), 200)
+        log.request.info(f"Response returned")
+        log.backend.info(f"Function 'get_price()' finished")
+        return res
 
 
 if __name__ == '__main__':

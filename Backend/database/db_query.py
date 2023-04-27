@@ -20,13 +20,33 @@ def check_connection():
         else:
             return False
 
-def insert_price(id, ip, car_name, car_type, car_price):
-    sql = """INSERT INTO results (id, user_ip, car_name, car_type, car_price) VALUES (%s, %s, %s, %s, %s)"""
+def insert_price(brand_name: str, 
+                 model_name: str, 
+                 body_type: str, 
+                 fuel_type: str, 
+                 transmission: str, 
+                 power: float, 
+                 mileage: int, 
+                 year: int, 
+                 engine_displacement: float, 
+                 price: float):
+    sql = """INSERT INTO results 
+            (brandName, modelName, bodyType, fuelType, transmission, power, mileage, year, engineDisplacement, price)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
     conn = None
     try:
         conn =  generate_connection()
         cursor = conn.cursor()
-        cursor.execute(sql, (id, str(ip), str(car_name), str(car_type), car_price,))
+        cursor.execute(sql, (brand_name,
+                            model_name, 
+                            body_type, 
+                            fuel_type, 
+                            transmission, 
+                            power, 
+                            mileage, 
+                            year, 
+                            engine_displacement, 
+                            price))
         conn.commit()
         cursor.close()
         log.database.info(f"Data inserted")

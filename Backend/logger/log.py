@@ -1,6 +1,5 @@
 import logging
 
-
 class log_collection():
     backend = None
     database = None
