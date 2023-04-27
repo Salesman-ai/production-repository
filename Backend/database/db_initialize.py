@@ -17,8 +17,10 @@ def is_database_exist():
     if "not exist" in str(generate_connection()):
         log.database.warning(f"{ str(os.environ.get('POSTGRES_DB')) } not exist. Database will be created.")
         database_initialization()
+        table_creation()
     elif check_connection() is True:
         log.database.info(f"Table: { str(os.environ.get('POSTGRES_DB')) } exist. Skipping...")
+        table_creation()
 
 def database_initialization():
     sql_init = f"""
@@ -32,6 +34,21 @@ def database_initialization():
                 CONNECTION LIMIT = -1
                 IS_TEMPLATE = False;"""
     
+    conn = None
+    try:
+        conn =  generate_connection("salesman")
+        conn.autocommit = True
+        cursor = conn.cursor()
+        cursor.execute(sql_init)
+        log.database.info(f"database { str(os.environ.get('POSTGRES_DB')) } created.")
+        cursor.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        log.database.error(f"Database was not created correctly. Error - {error}")
+    finally:
+        if conn is not None:
+            conn.close()
+
+def table_creation():
     sql_create = f"""
                     CREATE TABLE IF NOT EXISTS public.{os.environ.get('POSTGRES_TABLE')}
                     (
@@ -51,16 +68,13 @@ def database_initialization():
                     TABLESPACE pg_default;
                     ALTER TABLE IF EXISTS public.results
                         OWNER to {os.environ.get('POSTGRES_USER')};"""
-    
     conn = None
     try:
         conn =  generate_connection("salesman")
         conn.autocommit = True
         cursor = conn.cursor()
-        cursor.execute(sql_init)
-        log.database.info(f"database { str(os.environ.get('POSTGRES_DB')) } created.")
         cursor.execute(sql_create)
-        log.database.info(f"table 'name' created.")
+        log.database.info(f"table 'result' created.")
         cursor.close()
     except (Exception, psycopg2.DatabaseError) as error:
         log.database.error(f"Database was not created correctly. Error - {error}")
