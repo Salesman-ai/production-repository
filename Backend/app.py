@@ -7,11 +7,13 @@ from database.db_query import insert_price
 from database.db_initialize import is_database_exist
 from flask_cors import CORS
 import requests
+import time
 
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api-backend/*": {"origins": "*"}})
 
+time.sleep(15)
 log.backend.info("Start working on the logic module...")
 is_database_exist()
 
