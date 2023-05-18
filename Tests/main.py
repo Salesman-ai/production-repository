@@ -13,13 +13,13 @@ options = Options()
 options.add_argument("--headless=new")
 
 browser = webdriver.Chrome(options=options)
-browser.get('http://192.168.58.4')
+browser.get('http://192.166.217.30')
 
 browser_error = webdriver.Chrome(options=options)
-browser_error.get('http://192.168.58.4')
+browser_error.get('http://192.166.217.30')
 
 browser_disabled = webdriver.Chrome(options=options)
-browser_disabled.get('http://192.168.58.4')
+browser_disabled.get('http://192.166.217.30')
 
 
 class RunTest(unittest.TestCase):
