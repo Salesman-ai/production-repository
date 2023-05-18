@@ -1,5 +1,5 @@
 import unittest
-from result import check_result
+from result import check_good_result, check_error_result
 from elements import check_exists
 from elements import check_disabled
 from selenium.webdriver.chrome.options import Options
@@ -16,22 +16,27 @@ options.add_argument("--headless=new")
 browser = webdriver.Chrome(options=options)
 browser.get('http://192.168.58.4')
 
+browser_error = webdriver.Chrome(options=options)
+browser_error.get('http://192.168.58.4')
 
 
 class RunTest(unittest.TestCase):
 
     def test_elements_exists(self):
         result = check_exists(browser)
-        self.assertEqual(result, 8)
+        self.assertEqual(result, 9)
 
     def test_check_disabled(self):
         result = check_disabled(browser)
         self.assertFalse(result.is_enabled());
 
     def test_result(self):
-        result = check_result(browser)
+        result = check_good_result(browser)
         self.assertIsInstance(result, float)
     
+    def test_error_result(self):
+        result = check_error_result(browser_error)
+        self.assertEqual(result, "")
 
 if __name__ == '__main__':
     unittest.main()
