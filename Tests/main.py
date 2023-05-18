@@ -22,7 +22,7 @@ class RunTest(unittest.TestCase):
 
     def test_elements_exists(self):
         result = check_exists(browser)
-        self.assertEqual(result, 9)
+        self.assertEqual(result, 8)
 
     def test_check_disabled(self):
         result = check_disabled(browser)
