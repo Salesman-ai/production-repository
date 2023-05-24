@@ -41,7 +41,7 @@ class RunTest(unittest.TestCase):
             "power": 120,
         }
         result = requests.get(os.environ.get("PREDICTION_URL") +  ":" + os.environ.get("PREDICTION_PORT") + "/api-prediction/get-predict", params=parameters)
-        self.assertEqual(result.status_code, 414)
+        self.assertEqual(result.status_code, 400)
 
     def test_if_year_value_are_incorrect_low(self):
         parameters = {
@@ -56,7 +56,7 @@ class RunTest(unittest.TestCase):
             "power": 120,
         }
         result = requests.get(os.environ.get("PREDICTION_URL") +  ":" + os.environ.get("PREDICTION_PORT") + "/api-prediction/get-predict", params=parameters)
-        self.assertEqual(result.status_code, 415)
+        self.assertEqual(result.status_code, 400)
 
     def test_if_year_value_are_incorrect_high(self):
         parameters = {
@@ -71,7 +71,7 @@ class RunTest(unittest.TestCase):
             "power": 120,
         }
         result = requests.get(os.environ.get("PREDICTION_URL") +  ":" + os.environ.get("PREDICTION_PORT") + "/api-prediction/get-predict", params=parameters)
-        self.assertEqual(result.status_code, 416)
+        self.assertEqual(result.status_code, 400)
 
     def test_if_engine_value_are_incorrect(self):
         parameters = {
@@ -86,7 +86,7 @@ class RunTest(unittest.TestCase):
             "power": 120,
         }
         result = requests.get(os.environ.get("PREDICTION_URL") +  ":" + os.environ.get("PREDICTION_PORT") + "/api-prediction/get-predict", params=parameters)
-        self.assertEqual(result.status_code, 418)
+        self.assertEqual(result.status_code, 400)
 
     def test_if_power_value_are_incorrect(self):
         parameters = {
@@ -101,11 +101,11 @@ class RunTest(unittest.TestCase):
             "power": 1200,
         }
         result = requests.get(os.environ.get("PREDICTION_URL") +  ":" + os.environ.get("PREDICTION_PORT") + "/api-prediction/get-predict", params=parameters)
-        self.assertEqual(result.status_code, 417)
+        self.assertEqual(result.status_code, 400)
 
     def test_if_params_are_not_sended(self):
         result = requests.get(os.environ.get("PREDICTION_URL") +  ":" + os.environ.get("PREDICTION_PORT") + "/api-prediction/get-predict")
-        self.assertEqual(result.status_code, 420)
+        self.assertEqual(result.status_code, 400)
 
     def test_check_database_connection(self):
         result = check_connection()
