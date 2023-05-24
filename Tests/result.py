@@ -88,13 +88,12 @@ def check_error_result(browser):
     #Year
     year = browser.find_element(By.XPATH, "/html/body/div/div/div[2]/div[1]/form/div[8]/input")
     year.send_keys('2000')
+    time.sleep(2)
 
     #Check Price
     check_btn = browser.find_element(By.XPATH, "/html/body/div/div/div[2]/div[1]/form/button")
-    check_btn.click()
-    time.sleep(3)
 
-    #Get Result
-    result = browser.find_element(By.XPATH, "/html/body/div/div/div[2]/div[2]/div/p[2]").text
-
-    return result
+    if check_btn.is_enabled() == True:
+        return True
+    else:
+        return False
