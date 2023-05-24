@@ -23,3 +23,7 @@ def check_is_disabled_enabled(browser):
     time.sleep(1)
 
     return browser.find_element(By.XPATH, "/html/body/div/div/div[2]/div[1]/form/div[2]/select")
+
+
+def check_if_button_is_disabled(browser):
+    return browser.find_element(By.XPATH, "/html/body/div/div/div[2]/div[1]/form/button")

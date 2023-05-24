@@ -35,6 +35,10 @@ class RunTest(unittest.TestCase):
     def test_check_disabled_is_enabled(self):
         result = check_is_disabled_enabled(browser_disabled)
         self.assertTrue(result.is_enabled());
+    
+    def test_check_if_button_is_disabled(self):
+        result = check_if_button_is_disabled(browser_disabled)
+        self.assertFalse(result.is_enabled());
 
     def test_result(self):
         result = check_good_result(browser)
