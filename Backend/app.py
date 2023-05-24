@@ -81,8 +81,8 @@ def get_price():
             res = summary("Connection failure...", 500)
             return res
         
-        insert_price(req["brand"], req["name"], req["bodyType"], req["fuelType"], req["tranny"], req["power"], req["mileage"],req["year"],req["engineDisplacement"], float(res.text))
-        res = summary(float(res.text), 200)
+        insert_price(req["brand"], req["name"], req["bodyType"], req["fuelType"], req["tranny"], req["power"], req["mileage"],req["year"],req["engineDisplacement"], float(res.text.replace('"', '')))
+        res = summary(float(res.text.replace('"', '')), 200)
         log.request.info(f"Response returned")
         log.backend.info(f"Function 'get_price()' finished")
         return res
