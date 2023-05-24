@@ -68,7 +68,7 @@ def get_price():
         try:
             log.request.info(f"Request was sent to the prediction module")
             try:
-                res = requests.get(os.getenv("PREDICTION_URL") +  ":" + os.getenv("PREDICTION_PORT") + "/api-prediction/get-predict", params=req)
+                res = requests.get(os.environ.get("PREDICTION_URL") +  ":" + os.environ.get("PREDICTION_PORT") + "/api-prediction/get-predict", params=req)
                 log.request.info(f"Response was received from  prediction module")
             
             except Exception as error:
